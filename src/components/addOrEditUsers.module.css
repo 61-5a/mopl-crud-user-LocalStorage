@@ -1,0 +1,18 @@
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.close img {
+  max-width: 20px;
+}
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.uploded_img {
+  max-height: 100% !important;
+  width: 14%;
+  margin-right: 5px;
+}

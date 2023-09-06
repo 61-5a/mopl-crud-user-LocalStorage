@@ -1,3 +1,14 @@
+## Developer Notes:
+
+login page : http://localhost:3000/
+username : admin@mopl.com
+password :1234
+
+Dashboard : http://localhost:3000/dashboard
+Add, Edit and delete (single or multiple) users and show a list of users in this page.
+
+Build with next.js and context for global store. User list stored in context and localStorage.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

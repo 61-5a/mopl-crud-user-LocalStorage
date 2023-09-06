@@ -1,5 +1,7 @@
 ## Developer Notes:
 
+Live URL : http://mopl-sample.vercel.app/
+
 login page : http://localhost:3000/
 username : admin@mopl.com
 password :1234

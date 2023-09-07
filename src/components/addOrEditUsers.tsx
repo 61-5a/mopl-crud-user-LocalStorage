@@ -4,22 +4,16 @@ import { StoreContext } from "@/global/StoreContext";
 
 import styles from "./addOrEditUsers.module.css";
 
+type UserType = {
+  id: number;
+  name: string;
+  email: string;
+  photo: string;
+};
 interface AddOrEditUsersProps {
+  editUser: UserType | null;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  editUser: {
-    id: number;
-    name: string;
-    email: string;
-    photo: string;
-  } | null;
-  setEditUser: React.Dispatch<
-    React.SetStateAction<{
-      id: number;
-      name: string;
-      email: string;
-      photo: string;
-    } | null>
-  >;
+  setEditUser: React.Dispatch<React.SetStateAction<UserType | null>>;
 }
 
 const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, setIsModalOpen }) => {
@@ -33,10 +27,29 @@ const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, 
     email: "",
     photo: "",
   });
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "name") {
+      if (value.trim() === "") {
+        setErrors({ ...errors, name: "Name is required" });
+      } else {
+        setErrors({ ...errors, name: "" });
+      }
+    } else if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        setErrors({ ...errors, email: "Invalid email format" });
+      } else {
+        setErrors({ ...errors, email: "" });
+      }
+    }
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +70,10 @@ const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, 
       alert("Please fill all fields");
       return;
     }
+    if (errors.name || errors.email) {
+      alert("Please fix the validation errors");
+      return;
+    }
 
     const newUser = {
       id: formData.id || Date.now(),
@@ -66,9 +83,7 @@ const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, 
     };
 
     if (editUser) {
-      const updatedUsers = users.map((user: { id: number; name: string; email: string; photo: string }) =>
-        user.id === editUser.id ? newUser : user
-      );
+      const updatedUsers = users.map((user: UserType) => (user.id === editUser.id ? newUser : user));
       setUsers(updatedUsers);
       setEditUser(null);
     } else {
@@ -111,7 +126,7 @@ const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, 
               onChange={handleInputChange}
               required
             />
-            {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
+            {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
           </div>
           <div className="w-full md:w-1/2 px-3">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-email">
@@ -127,7 +142,7 @@ const AddOrEditUsers: React.FC<AddOrEditUsersProps> = ({ editUser, setEditUser, 
               onChange={handleInputChange}
               required
             />
-            {/* <p className="text-red-500 text-xs italic">Please fill out this field.</p> */}
+            {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
           </div>
         </div>
 

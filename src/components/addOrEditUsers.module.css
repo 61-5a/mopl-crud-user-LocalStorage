@@ -11,8 +11,20 @@
   align-items: center;
   justify-content: flex-end;
 }
+.uploded_img_outer {
+  position: relative;
+}
 .uploded_img {
-  max-height: 100% !important;
-  width: 14%;
-  margin-right: 5px;
+  max-height: 130px !important;
+}
+.uploded_close_img {
+  max-width: 20px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  border: 1px solid #000;
+  border-radius: 50%;
+  padding: 3px;
+  background-color: rgba(255, 0, 0, 0.5);
 }
